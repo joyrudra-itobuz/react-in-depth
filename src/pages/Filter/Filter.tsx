@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
+import throttle from "../../helper/throttle";
 
 type someData = {
   name: string;
@@ -17,8 +18,10 @@ export default function Filter() {
     setSomeData(data);
   }
 
+  const throttledGetSomeData = throttle(getSomeData, 500);
+
   useEffect(() => {
-    getSomeData();
+    throttledGetSomeData();
   }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -34,6 +37,10 @@ export default function Filter() {
     const data = await res.json();
 
     setSomeData([data]);
+  }
+
+  if (!someData.length) {
+    return <div>Loading...</div>;
   }
 
   return (
