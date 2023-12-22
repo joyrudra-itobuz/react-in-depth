@@ -29,10 +29,9 @@ function IncreaseComponent() {
           setCount(count + 1);
           setCount(count + 1);
           setCount(count + 1);
-          setCount(count + 1);
+          setCount(count + 1); //The value of count will only update in the last update
         }}
       >
-        {" "}
         Increase Count
       </button>
     </>

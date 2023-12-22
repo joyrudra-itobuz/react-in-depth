@@ -1,5 +1,5 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
-import throttle from "../../helper/throttle";
+import { FormEvent, useEffect, useRef, useState, useTransition } from "react";
+// import throttle from "../../helper/throttle";
 
 type someData = {
   name: string;
@@ -10,19 +10,39 @@ type someData = {
 export default function Filter() {
   const searchRef = useRef<HTMLInputElement | null>(null);
   const [someData, setSomeData] = useState<Array<someData>>([]);
+  const [search, setSearch] = useState("");
+  const [, startTransition] = useTransition();
 
   async function getSomeData() {
-    const res = await fetch("https://jsonplaceholder.typicode.com/users");
+    if (!search.length) {
+      const res = await fetch(
+        `https://jsonplaceholder.typicode.com/users/${search}`
+      );
+
+      const data = await res.json();
+
+      setTimeout(() => {
+        startTransition(() => setSomeData(data));
+      }, 1200);
+
+      return;
+    }
+
+    setSomeData(() => []);
+
+    const res = await fetch(
+      `https://jsonplaceholder.typicode.com/users/${search}`
+    );
     const data = await res.json();
 
-    setSomeData(data);
+    setTimeout(() => {
+      startTransition(() => setSomeData([data]));
+    }, 1200);
   }
 
-  const throttledGetSomeData = throttle(getSomeData, 500);
-
   useEffect(() => {
-    throttledGetSomeData();
-  }, []);
+    getSomeData();
+  }, [search]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -36,11 +56,9 @@ export default function Filter() {
     );
     const data = await res.json();
 
-    setSomeData([data]);
-  }
-
-  if (!someData.length) {
-    return <div>Loading...</div>;
+    setTimeout(() => {
+      setSomeData([data]);
+    }, 1200);
   }
 
   return (
@@ -53,6 +71,10 @@ export default function Filter() {
       >
         <input
           ref={searchRef}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          placeholder="id"
           type="text"
           className="bg-transparent border p-5 text-3xl w-full"
         />
@@ -61,15 +83,19 @@ export default function Filter() {
       </form>
 
       <div id="results" className="flex flex-col gap-5">
-        {someData.map((data) => {
-          return (
-            <div key={data.id} className="bg-gray-800 p-5">
-              <p>Name : {data.name}</p>
-              <p>Id : {data.id}</p>
-              <p>Username : {data.username}</p>
-            </div>
-          );
-        })}
+        {!someData.length ? (
+          <div>Loading...</div>
+        ) : (
+          someData.map((data) => {
+            return (
+              <div key={data.id} className="bg-gray-800 p-5">
+                <p>Name : {data.name}</p>
+                <p>Id : {data.id}</p>
+                <p>Username : {data.username}</p>
+              </div>
+            );
+          })
+        )}
       </div>
     </div>
   );
