@@ -1,5 +1,15 @@
-import { FormEvent, useEffect, useRef, useState, useTransition } from "react";
+import {
+  FormEvent,
+  Suspense,
+  useDeferredValue,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 // import throttle from "../../helper/throttle";
+
+import { throttle } from "lodash";
 
 type someData = {
   name: string;
@@ -28,7 +38,7 @@ export default function Filter() {
       return;
     }
 
-    setSomeData(() => []);
+    setSomeData([]);
 
     const res = await fetch(
       `https://jsonplaceholder.typicode.com/users/${search}`
@@ -40,9 +50,13 @@ export default function Filter() {
     }, 1200);
   }
 
+  const throttledFunction = throttle(getSomeData, 2000);
+
   useEffect(() => {
     getSomeData();
   }, [search]);
+
+  useDeferredValue(() => someData);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -82,21 +96,23 @@ export default function Filter() {
         <button className="px-5 py-2 bg-blue-700 w-[10rem]">Search</button>
       </form>
 
-      <div id="results" className="flex flex-col gap-5">
-        {!someData.length ? (
-          <div>Loading...</div>
-        ) : (
-          someData.map((data) => {
-            return (
-              <div key={data.id} className="bg-gray-800 p-5">
-                <p>Name : {data.name}</p>
-                <p>Id : {data.id}</p>
-                <p>Username : {data.username}</p>
-              </div>
-            );
-          })
-        )}
-      </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <div id="results" className="flex flex-col gap-5">
+          {!someData.length ? (
+            <div>...</div>
+          ) : (
+            someData.map((data) => {
+              return (
+                <div key={data.id} className="bg-gray-800 p-5">
+                  <p>Name : {data.name}</p>
+                  <p>Id : {data.id}</p>
+                  <p>Username : {data.username}</p>
+                </div>
+              );
+            })
+          )}
+        </div>
+      </Suspense>
     </div>
   );
 }
