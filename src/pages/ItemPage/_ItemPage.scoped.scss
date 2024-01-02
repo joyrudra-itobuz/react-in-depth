@@ -1,0 +1,13 @@
+:root {
+  --color-radial: #ff385c;
+  --color-radial-fx: #b00927;
+  --mouse-x: 96.12735575346267;
+  --mouse-y: 89.58333333333334;
+}
+
+.order-button {
+  background-position: calc((100 - var(--mouse-x, 0)) * 1%)
+    calc((100 - var(--mouse-y, 0)) * 1%);
+
+  background: var(--color-radial, var(--color-radial-fx));
+}

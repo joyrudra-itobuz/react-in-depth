@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useMemo, useState } from 'react';
+import React, { ReactNode, createContext, useMemo, useState } from 'react';
 
 type SearchContext = {
   showSearchWindow: boolean;
@@ -7,7 +7,7 @@ type SearchContext = {
 
 export const SearchContext = createContext<SearchContext>({
   showSearchWindow: false,
-  setShowSearchWindow: function (): void {
+  setShowSearchWindow: () => {
     throw new Error('Function not implemented.');
   },
 });
