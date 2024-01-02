@@ -19,6 +19,7 @@ export default function Navbar() {
           onClick={() => {
             console.log('Clicked!');
             setShowSearchWindow(true);
+            document.querySelector('body')?.classList.toggle('overflow-hidden');
           }}
           className='flex h-12 w-12 items-center justify-center gap-3 rounded-3xl border-[3px] border-transparent bg-gray-800 focus:border-teal-600 focus:outline-none lg:w-full lg:justify-start lg:p-2 lg:px-5'
         >

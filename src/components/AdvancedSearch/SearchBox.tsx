@@ -2,6 +2,9 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
 import { SearchContext } from '../../context/AdvancedSearch/SearchContext';
+import apiCall from '../../helper/apiCalls';
+import { Item } from '../../types/global';
+import { LazyImage } from '../Global/LazyImage';
 
 type SearchHistory = {
   search: string;
@@ -12,32 +15,9 @@ type SearchHistory = {
 export default function SearchBox() {
   const { setShowSearchWindow } = useContext(SearchContext);
   const [search, setSearch] = useState('');
+  const [searchedData, setSearchData] = useState<Array<Item>>();
   const [searchHistory, setSearchHistory] = useState<Array<SearchHistory>>([]);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      // Check if the click is inside the tracked element
-      if (
-        searchContainerRef.current &&
-        searchContainerRef.current.contains(e.target as Node)
-      ) {
-        setShowSearchWindow(false);
-      }
-    };
-
-    // Attach the click event listener when the component mounts
-    document.addEventListener('click', handleClick);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      document.removeEventListener('click', handleClick);
-    };
-  }, []);
-
-  useEffect(() => {
-    setDataToLocalStorage();
-  }, [search]);
 
   function setDataToLocalStorage() {
     const searchHistoryCached = JSON.parse(
@@ -49,10 +29,50 @@ export default function SearchBox() {
       { search, link: '', id: crypto.randomUUID() },
     ]);
 
+    setSearchHistory([]);
+
     console.log(searchHistory, 'after');
 
     localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
   }
+
+  async function advancedSearch() {
+    if (!search.length) {
+      return;
+    }
+
+    const response = await apiCall<Array<Item>, null>(
+      `/menu-editor/advanced-search?search=${search}`,
+      'GET',
+      null
+    );
+
+    setSearchData(response.data);
+
+    console.log(response);
+  }
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (
+        searchContainerRef.current &&
+        searchContainerRef.current.contains(e.target as Node)
+      ) {
+        setShowSearchWindow(false);
+      }
+    };
+
+    document.addEventListener('click', handleClick);
+
+    return () => {
+      document.removeEventListener('click', handleClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    setDataToLocalStorage();
+    advancedSearch();
+  }, [search]);
 
   return (
     <div
@@ -61,7 +81,7 @@ export default function SearchBox() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className='search-box mx-5 my-[5rem] max-h-[30rem] w-full rounded-3xl bg-[#232323] p-5 lg:max-h-full lg:max-w-[50%]'
+        className='search-box mx-5 my-[5rem] max-h-[80rem] w-full rounded-3xl bg-[#232323] p-5 lg:max-w-[50%]'
       >
         <div className=' flex items-center gap-2 rounded-3xl border-[3px] border-transparent bg-[#3b3b3b] px-3 shadow-2xl focus:border-blue-700'>
           <CiSearch className='text-2xl' />
@@ -76,7 +96,7 @@ export default function SearchBox() {
           />
         </div>
 
-        <div className='recent-searches mt-5 h-[20rem] lg:h-[85%]'>
+        <div className='recent-searches mt-5 max-h-[30rem]'>
           <h4>RECENT</h4>
           <ul className='my-4 h-full overflow-y-scroll'>
             {!searchHistory.length ? (
@@ -91,6 +111,36 @@ export default function SearchBox() {
               })
             )}
           </ul>
+
+          {searchedData?.length && (
+            <div className='max-h-[30rem] '>
+              <h2 className='my-2 font-bold'>Suggestions : </h2>
+              <ul className='flex h-[28rem] flex-col gap-2 overflow-y-scroll'>
+                {searchedData.map((data) => {
+                  return (
+                    <li key={data._id}>
+                      <Link
+                        to={`/item/${data._id}`}
+                        className='flex gap-5 bg-black/30 p-4'
+                      >
+                        <div className='h-20 w-20'>
+                          <LazyImage
+                            className='h-full w-full object-cover'
+                            src={data.itemImage}
+                            alt={data.itemName}
+                          />
+                        </div>
+                        <div className='flex flex-col items-start gap-2'>
+                          <p>{data.itemName}</p>
+                          <p>{data.price}</p>
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
