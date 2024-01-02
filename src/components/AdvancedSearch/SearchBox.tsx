@@ -6,10 +6,15 @@ import apiCall from '../../helper/apiCalls';
 import { Item } from '../../types/global';
 import { LazyImage } from '../Global/LazyImage';
 
-type SearchHistory = {
-  search: string;
-  link: string;
+type LocalStorageHistoryData = {
   id: string;
+  itemName: string;
+  itemPrice: number;
+  itemImage: string;
+};
+
+type SearchHistory = LocalStorageHistoryData & {
+  link: string;
 };
 
 export default function SearchBox() {
@@ -19,21 +24,45 @@ export default function SearchBox() {
   const [searchHistory, setSearchHistory] = useState<Array<SearchHistory>>([]);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
 
-  function setDataToLocalStorage() {
+  function setSearchHistoryData() {
     const searchHistoryCached = JSON.parse(
       localStorage.getItem('searchHistory') ?? '[]'
     ) as unknown as Array<SearchHistory>;
 
-    setSearchHistory([
+    setSearchHistory([...searchHistoryCached]);
+  }
+
+  function setDataToLocalStorage({
+    id,
+    itemName,
+    itemPrice,
+    itemImage,
+  }: LocalStorageHistoryData) {
+    const link = `/item/${id}`;
+
+    const searchHistoryCached = JSON.parse(
+      localStorage.getItem('searchHistory') ?? '[]'
+    ) as unknown as Array<SearchHistory>;
+
+    const findIndex = searchHistoryCached.findIndex((data) => data.id === id);
+
+    if (findIndex > -1) {
+      return;
+    }
+
+    const newArr = [
       ...searchHistoryCached,
-      { search, link: '', id: crypto.randomUUID() },
-    ]);
+      {
+        itemName,
+        link,
+        id,
+        itemPrice,
+        itemImage,
+      },
+    ];
 
-    setSearchHistory([]);
-
-    console.log(searchHistory, 'after');
-
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+    setSearchHistory(newArr);
+    localStorage.setItem('searchHistory', JSON.stringify(newArr));
   }
 
   async function advancedSearch() {
@@ -48,8 +77,6 @@ export default function SearchBox() {
     );
 
     setSearchData(response.data);
-
-    console.log(response);
   }
 
   useEffect(() => {
@@ -70,9 +97,12 @@ export default function SearchBox() {
   }, []);
 
   useEffect(() => {
-    setDataToLocalStorage();
     advancedSearch();
   }, [search]);
+
+  useEffect(() => {
+    setSearchHistoryData();
+  }, []);
 
   return (
     <div
@@ -98,27 +128,52 @@ export default function SearchBox() {
 
         <div className='recent-searches mt-5 max-h-[30rem]'>
           <h4>RECENT</h4>
-          <ul className='my-4 h-full overflow-y-scroll'>
+          <ul className='my-4 flex max-h-[20rem] flex-col gap-2 overflow-y-scroll'>
             {!searchHistory.length ? (
               <div>No Search Found!</div>
             ) : (
               searchHistory.map((data) => {
                 return (
                   <li key={data.id}>
-                    <Link to={data.link}>{data.search}</Link>
+                    <Link
+                      to={`/item/${data.id}`}
+                      className='flex gap-5 bg-black/30 p-4'
+                    >
+                      <div className='h-20 w-20'>
+                        <LazyImage
+                          className='h-full w-full object-cover'
+                          src={data.itemImage}
+                          alt={data.itemName}
+                        />
+                      </div>
+                      <div className='flex flex-col items-start gap-2'>
+                        <p>{data.itemName}</p>
+                        <p>{data.itemPrice}</p>
+                      </div>
+                    </Link>
                   </li>
                 );
               })
             )}
           </ul>
 
-          {searchedData?.length && (
-            <div className='max-h-[30rem] '>
+          {searchedData?.length ? (
+            <div className='max-h-[30rem]'>
               <h2 className='my-2 font-bold'>Suggestions : </h2>
-              <ul className='flex h-[28rem] flex-col gap-2 overflow-y-scroll'>
+              <ul className='flex h-[20rem] flex-col gap-2 overflow-y-scroll'>
                 {searchedData.map((data) => {
                   return (
-                    <li key={data._id}>
+                    <li
+                      key={data._id}
+                      onClick={() =>
+                        setDataToLocalStorage({
+                          id: data._id,
+                          itemName: data.itemName,
+                          itemPrice: data.price,
+                          itemImage: data.itemImage ?? '',
+                        })
+                      }
+                    >
                       <Link
                         to={`/item/${data._id}`}
                         className='flex gap-5 bg-black/30 p-4'
@@ -140,6 +195,8 @@ export default function SearchBox() {
                 })}
               </ul>
             </div>
+          ) : (
+            ''
           )}
         </div>
       </div>

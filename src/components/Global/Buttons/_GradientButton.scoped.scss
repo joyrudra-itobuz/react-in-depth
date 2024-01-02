@@ -25,19 +25,35 @@ body {
 
   border-radius: $border-rounded;
   padding: 1em 3em;
-  background-size: 200% auto;
+  background-size: 300% auto;
   box-shadow:
     0 4px 6px rgba(50, 50, 93, 0.11),
     0 1px 3px rgba(0, 0, 0, 0.08);
   background-image: linear-gradient(
     to right,
-    #ff0048 0%,
-    #ff92c3 50%,
-    #f25ce0 100%
+    #0066ff 0%,
+    #64f6e7 50%,
+    #07983a 100%
   );
-  transition: 0.5s;
+  transition: 0.6s;
 
   &:hover {
     background-position: right center;
+  }
+
+  &:active {
+    animation: bg-flow 1s infinite linear;
+  }
+
+  @keyframes bg-flow {
+    0% {
+      background-position: right center;
+    }
+    50% {
+      background-position: center left;
+    }
+    100% {
+      background-position: right center;
+    }
   }
 }

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Item } from '../../types/global';
 import { LazyImage } from '../Global/LazyImage';
+import GradientButton from '../Global/Buttons/GradientButton';
 
 export default function ItemImages({ data }: { data: Item }) {
   return (
@@ -22,6 +23,7 @@ export default function ItemImages({ data }: { data: Item }) {
         <p>{data.spicyMeter}</p>
         <p>₹ {data.price} Plate</p>
         <span>{data.averageRating}</span>
+        <GradientButton className='mt-5'>Order</GradientButton>
       </div>
     </Link>
   );
