@@ -2,19 +2,20 @@
 
 .input-container {
   position: relative;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   input {
     background-color: transparent;
     border: 2px solid white;
     transition: all 0.3s;
-    padding: 0.3rem 0.6rem;
+    padding: 1rem;
     outline: none;
     border-radius: 0.4rem;
+    position: relative;
 
     &:focus {
       border: 2px solid rgb(0, 124, 128);
     }
-    &:valid:not(:placeholder-shown) ~ label,
+    &:not(:placeholder-shown) ~ label,
     &:focus ~ label {
       color: rgb(235, 235, 235);
       top: 0;

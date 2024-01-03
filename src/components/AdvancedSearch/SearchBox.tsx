@@ -106,7 +106,7 @@ export default function SearchBox() {
   return (
     <div
       ref={searchContainerRef}
-      className=' z-99 fixed top-0  flex h-screen  w-screen justify-center bg-black/40 backdrop-blur-sm'
+      className=' fixed top-0 z-[9999] flex h-screen w-screen justify-center bg-black/40 backdrop-blur-sm'
     >
       <div
         onClick={(e) => e.stopPropagation()}

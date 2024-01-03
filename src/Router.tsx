@@ -15,7 +15,7 @@ export default function Router() {
           <Routes>
             <Route path='/' element={<SignIn />} />
             <Route path='/filter' element={<Filter />} />
-            <Route path='/advanced-search' element={<AdvancedSearch />} />
+            <Route path='/dashboard' element={<AdvancedSearch />} />
             <Route path='/item/:id' element={<ItemPage />} />
           </Routes>
         </Layout>

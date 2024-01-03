@@ -1,4 +1,5 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, useId } from 'react';
+import { useController, useFormContext } from 'react-hook-form';
 import './_AnimatedInputLabel.scoped.scss';
 
 type FormInputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -10,16 +11,29 @@ export default function AnimatedInputLabel({
   label,
   ...inputProps
 }: FormInputProps) {
+  const id = useId();
+  const { register, control } = useFormContext();
+  const { fieldState } = useController({
+    control,
+    name: inputProps.name,
+  });
+
   return (
-    <div className='input-container'>
-      <input
-        {...inputProps}
-        name={inputProps.name}
-        type='text'
-        className=''
-        placeholder=''
-      />
-      <label htmlFor=''>{label ?? 'Type Here'}</label>
+    <div>
+      <div className='input-container'>
+        <input
+          {...inputProps}
+          {...register(inputProps.name)}
+          name={inputProps.name}
+          placeholder=''
+          autoComplete='on'
+          id={id}
+        />
+        <label htmlFor={id}>{label ?? 'Type Here'}</label>
+      </div>
+      {fieldState.error?.message && (
+        <p className='text-red-500 '>{fieldState.error?.message}</p>
+      )}
     </div>
   );
 }

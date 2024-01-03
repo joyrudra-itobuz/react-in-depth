@@ -3,6 +3,7 @@ import { CiSearch } from 'react-icons/ci';
 import { CgProfile } from 'react-icons/cg';
 import { useContext } from 'react';
 import { SearchContext } from '../../context/AdvancedSearch/SearchContext';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const { setShowSearchWindow } = useContext(SearchContext);
@@ -10,7 +11,9 @@ export default function Navbar() {
   return (
     <nav className='fixed top-0 flex w-full  items-center justify-between gap-5 bg-blue-900 p-5'>
       <div className='flex items-center gap-5 text-2xl'>
-        <FaReact className={'react-logo-spinner text-6xl text-sky-500'} />
+        <Link to={'/'}>
+          <FaReact className={'react-logo-spinner text-6xl text-sky-500'} />
+        </Link>
         <h2 className='hidden min-w-max lg:block'>Advanced Search</h2>
       </div>
 
