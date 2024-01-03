@@ -3,7 +3,7 @@ import { Item } from '../../types/global';
 import { LazyImage } from '../Global/LazyImage';
 import GradientButton from '../Global/Buttons/GradientButton';
 
-export default function ItemImages({ data }: { data: Item }) {
+export default function ItemImages({ data }: Readonly<{ data: Item }>) {
   return (
     <Link
       to={`/item/${data._id}`}

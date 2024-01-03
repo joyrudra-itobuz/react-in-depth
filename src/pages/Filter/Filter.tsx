@@ -6,10 +6,10 @@ import {
   useRef,
   useState,
   useTransition,
-} from "react";
+} from 'react';
 // import throttle from "../../helper/throttle";
 
-import { throttle } from "lodash";
+import { throttle } from 'lodash';
 
 type someData = {
   name: string;
@@ -20,7 +20,7 @@ type someData = {
 export default function Filter() {
   const searchRef = useRef<HTMLInputElement | null>(null);
   const [someData, setSomeData] = useState<Array<someData>>([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const [, startTransition] = useTransition();
 
   async function getSomeData() {
@@ -76,9 +76,9 @@ export default function Filter() {
   }
 
   return (
-    <div className="p-5">
+    <div className='p-5'>
       <form
-        className="mb-5 flex gap-5"
+        className='mb-5 flex gap-5'
         onSubmit={(e) => {
           handleSubmit(e);
         }}
@@ -88,22 +88,22 @@ export default function Filter() {
           onChange={(e) => {
             setSearch(e.target.value);
           }}
-          placeholder="id"
-          type="text"
-          className="bg-transparent border p-5 text-3xl w-full"
+          placeholder='id'
+          type='text'
+          className='w-full border bg-transparent p-5 text-3xl'
         />
 
-        <button className="px-5 py-2 bg-blue-700 w-[10rem]">Search</button>
+        <button className='w-[10rem] bg-blue-700 px-5 py-2'>Search</button>
       </form>
 
       <Suspense fallback={<div>Loading...</div>}>
-        <div id="results" className="flex flex-col gap-5">
+        <div id='results' className='flex flex-col gap-5'>
           {!someData.length ? (
             <div>...</div>
           ) : (
             someData.map((data) => {
               return (
-                <div key={data.id} className="bg-gray-800 p-5">
+                <div key={data.id} className='bg-gray-800 p-5'>
                   <p>Name : {data.name}</p>
                   <p>Id : {data.id}</p>
                   <p>Username : {data.username}</p>

@@ -8,7 +8,7 @@ export default function Navbar() {
   const { setShowSearchWindow } = useContext(SearchContext);
 
   return (
-    <nav className='flex items-center justify-between gap-5  bg-blue-900 p-5'>
+    <nav className='fixed top-0 flex w-full  items-center justify-between gap-5 bg-blue-900 p-5'>
       <div className='flex items-center gap-5 text-2xl'>
         <FaReact className={'react-logo-spinner text-6xl text-sky-500'} />
         <h2 className='hidden min-w-max lg:block'>Advanced Search</h2>

@@ -20,7 +20,7 @@ type SearchHistory = LocalStorageHistoryData & {
 export default function SearchBox() {
   const { setShowSearchWindow } = useContext(SearchContext);
   const [search, setSearch] = useState('');
-  const [searchedData, setSearchData] = useState<Array<Item>>();
+  const [searchedData, setSearchData] = useState<Array<Item>>([]);
   const [searchHistory, setSearchHistory] = useState<Array<SearchHistory>>([]);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -38,6 +38,8 @@ export default function SearchBox() {
     itemPrice,
     itemImage,
   }: LocalStorageHistoryData) {
+    setShowSearchWindow(false);
+
     const link = `/item/${id}`;
 
     const searchHistoryCached = JSON.parse(
@@ -81,10 +83,7 @@ export default function SearchBox() {
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (
-        searchContainerRef.current &&
-        searchContainerRef.current.contains(e.target as Node)
-      ) {
+      if (searchContainerRef.current?.contains(e.target as Node)) {
         setShowSearchWindow(false);
       }
     };
@@ -118,7 +117,6 @@ export default function SearchBox() {
           <input
             type='text'
             onChange={(e) => {
-              console.log(e.target.value);
               setSearch(e.target.value);
             }}
             placeholder='Search Docs'
@@ -136,6 +134,7 @@ export default function SearchBox() {
                 return (
                   <li key={data.id}>
                     <Link
+                      onClick={() => setShowSearchWindow(false)}
                       to={`/item/${data.id}`}
                       className='flex gap-5 bg-black/30 p-4'
                     >
@@ -163,19 +162,17 @@ export default function SearchBox() {
               <ul className='flex h-[20rem] flex-col gap-2 overflow-y-scroll'>
                 {searchedData.map((data) => {
                   return (
-                    <li
-                      key={data._id}
-                      onClick={() =>
-                        setDataToLocalStorage({
-                          id: data._id,
-                          itemName: data.itemName,
-                          itemPrice: data.price,
-                          itemImage: data.itemImage ?? '',
-                        })
-                      }
-                    >
+                    <li key={data._id}>
                       <Link
                         to={`/item/${data._id}`}
+                        onClick={() =>
+                          setDataToLocalStorage({
+                            id: data._id,
+                            itemName: data.itemName,
+                            itemPrice: data.price,
+                            itemImage: data.itemImage ?? '',
+                          })
+                        }
                         className='flex gap-5 bg-black/30 p-4'
                       >
                         <div className='h-20 w-20'>

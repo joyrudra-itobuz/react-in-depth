@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import apiCall from '../../helper/apiCalls';
 import { Item, ItemModel } from '../../types/global';
 import './_Content.scoped.scss';
@@ -35,10 +34,8 @@ export default function Content() {
       <div className='items-image-container  grid max-w-[1920px]  grid-cols-1 justify-items-center gap-5 sm:grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
         {loading
           ? // Render skeleton loader while loading
-            Array.from({ length: 5 }).map((_, index) => (
-              <div key={index} className='skeleton-loader'>
-                <Skeleton height={200} width={300} />
-              </div>
+            Array.from({ length: 5 }).map(() => (
+              <div key={crypto.randomUUID()} className='skeleton-loader'></div>
             ))
           : // Render actual content once loaded
             allItems.map((data) => <ItemImages key={data._id} data={data} />)}
