@@ -5,6 +5,7 @@ import apiCall from '../../helper/apiCalls';
 
 import './_ItemPage.scoped.scss';
 import GradientButton from '../../components/Global/Buttons/GradientButton';
+import { LazyImage } from '../../components/Global/LazyImage';
 
 export default function ItemPage() {
   const { id } = useParams();
@@ -29,7 +30,7 @@ export default function ItemPage() {
     <div className='p-5'>
       <div className='m-auto flex flex-col justify-center rounded-3xl border-[3px] border-black/90 bg-black/90 p-5 lg:w-[50rem] lg:flex-row lg:gap-5'>
         <div className='aspect-square sm:m-auto sm:h-[30rem] sm:w-full'>
-          <img
+          <LazyImage
             src={item?.itemImage}
             alt={item?.itemImageName}
             className='h-full w-full object-cover'

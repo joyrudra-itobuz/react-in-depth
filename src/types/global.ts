@@ -20,3 +20,29 @@ export type Item = {
 export type ItemModel = {
   allItems: Array<Item>;
 };
+
+export type LogInType = {
+  email: string;
+  password: string;
+};
+
+export type Profile = {
+  userType: string;
+  name?: string;
+  email: string;
+  phoneNumber?: number;
+  password: string;
+  hasOnboarded: boolean;
+  isActive?: boolean;
+  profileImage?: string;
+  imageName?: string;
+  lastLogin?: string;
+  deleteStatus?: boolean;
+  outlets?: Array<string>;
+};
+
+export type LoginResponse = {
+  userDetails: Profile;
+  accessToken: string;
+  refreshToken: string;
+};

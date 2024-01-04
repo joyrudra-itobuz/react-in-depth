@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState, useTransition } from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { Link } from 'react-router-dom';
 import { SearchContext } from '../../context/AdvancedSearch/SearchContext';
@@ -23,6 +23,7 @@ export default function SearchBox() {
   const [searchedData, setSearchData] = useState<Array<Item>>([]);
   const [searchHistory, setSearchHistory] = useState<Array<SearchHistory>>([]);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
+  const [, startSearchTransition] = useTransition();
 
   function setSearchHistoryData() {
     const searchHistoryCached = JSON.parse(
@@ -67,20 +68,6 @@ export default function SearchBox() {
     localStorage.setItem('searchHistory', JSON.stringify(newArr));
   }
 
-  async function advancedSearch() {
-    if (!search.length) {
-      return;
-    }
-
-    const response = await apiCall<Array<Item>, null>(
-      `/menu-editor/advanced-search?search=${search}`,
-      'GET',
-      null
-    );
-
-    setSearchData(response.data);
-  }
-
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (searchContainerRef.current?.contains(e.target as Node)) {
@@ -96,7 +83,28 @@ export default function SearchBox() {
   }, []);
 
   useEffect(() => {
-    advancedSearch();
+    async function advancedSearch() {
+      try {
+        if (!search.length) {
+          setSearchData([]);
+          return;
+        }
+
+        const response = await apiCall<Array<Item>, null>(
+          `/menu-editor/advanced-search?search=${search}`,
+          'GET',
+          null
+        );
+
+        setSearchData(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    startSearchTransition(() => {
+      advancedSearch();
+    });
   }, [search]);
 
   useEffect(() => {
@@ -110,7 +118,7 @@ export default function SearchBox() {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className='search-box mx-5 my-[5rem] max-h-[80rem] w-full rounded-3xl bg-[#232323] p-5 lg:max-w-[50%]'
+        className='search-box mx-5 my-[5rem] w-full rounded-3xl bg-[#232323] p-5 lg:max-w-[50%]'
       >
         <div className=' flex items-center gap-2 rounded-3xl border-[3px] border-transparent bg-[#3b3b3b] px-3 shadow-2xl focus:border-blue-700'>
           <CiSearch className='text-2xl' />

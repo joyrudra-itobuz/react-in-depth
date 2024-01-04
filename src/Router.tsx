@@ -1,11 +1,15 @@
+import { lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AdvancedSearchProvider } from './context/AdvancedSearch/SearchContext';
-import Filter from './pages/Filter/Filter';
-import AdvancedSearch from './pages/AdvancedSearch/AdvancedSearch';
-import ItemPage from './pages/ItemPage/ItemPage';
 import Layout from './Layout';
-import SignIn from './pages/SignIn/SignIn';
+
+const SignIn = lazy(() => import('./pages/SignIn/SignIn'));
+const ItemPage = lazy(() => import('./pages/ItemPage/ItemPage'));
+const AdvancedSearch = lazy(
+  () => import('./pages/AdvancedSearch/AdvancedSearch')
+);
+const Filter = lazy(() => import('./pages/Filter/Filter'));
 
 export default function Router() {
   return (

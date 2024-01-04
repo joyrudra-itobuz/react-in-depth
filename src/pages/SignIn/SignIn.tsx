@@ -1,38 +1,13 @@
 import SubmitButton from '../../components/Global/Buttons/SubmitButton';
 import AnimatedInputLabel from '../../components/Global/Inputs/AnimatedInputLabel';
-import EclipseLoader from '../../components/Global/EclipseLoader/EclipseLoader';
+// import EclipseLoader from '../../components/Global/EclipseLoader/EclipseLoader';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import apiCall from '../../helper/apiCalls';
 import { signInValidationSchema } from '../../validators/userDetails';
-
-type LogInType = {
-  email: string;
-  password: string;
-};
-
-type Profile = {
-  userType: string;
-  name?: string;
-  email: string;
-  phoneNumber?: number;
-  password: string;
-  hasOnboarded: boolean;
-  isActive?: boolean;
-  profileImage?: string;
-  imageName?: string;
-  lastLogin?: string;
-  deleteStatus?: boolean;
-  outlets?: Array<string>;
-};
-
-type LoginResponse = {
-  userDetails: Profile;
-  accessToken: string;
-  refreshToken: string;
-};
+import { LogInType, LoginResponse } from '../../types/global';
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -71,7 +46,7 @@ export default function SignIn() {
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(handleSignIn)}
-          className='xs:max-w-[30rem] flex w-full flex-col gap-5  rounded-xl border p-5'
+          className='flex w-full flex-col gap-5 rounded-xl  border p-5 xs:max-w-[30rem]'
         >
           <h2 className='bg-radial-red p-5 text-center text-2xl'>
             Welcome back!
