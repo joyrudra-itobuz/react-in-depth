@@ -1,15 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&display=swap');
 
 .input-container {
+  border-radius: 0.4rem;
+  background-color: rgb(29, 29, 29);
   position: relative;
   font-size: 1.2rem;
   input {
+    border-radius: 0.4rem;
     background-color: transparent;
     border: 2px solid white;
     transition: all 0.3s;
     padding: 1rem;
     outline: none;
-    border-radius: 0.4rem;
     position: relative;
 
     &:focus {
@@ -35,6 +37,7 @@
     pointer-events: none;
     transition: 0.3s;
     background-color: rgb(29, 29, 29);
+    // background: inherit;
     font-style: italic;
   }
 }

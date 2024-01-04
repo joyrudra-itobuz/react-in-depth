@@ -1,5 +1,6 @@
 import './App.scss';
 import Router from './Router';
+import ProfileRouter from './pages/Profile/ProfileRouter';
 
 // import '@mantine/core/styles.css';
 
@@ -8,7 +9,9 @@ import Router from './Router';
 export default function App() {
   return (
     // <MantineProvider>
-    <Router />
+    <>
+      <Router />
+    </>
     // </MantineProvider>
   );
 }

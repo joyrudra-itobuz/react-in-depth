@@ -1,16 +1,18 @@
 import SubmitButton from '../../components/Global/Buttons/SubmitButton';
 import AnimatedInputLabel from '../../components/Global/Inputs/AnimatedInputLabel';
 // import EclipseLoader from '../../components/Global/EclipseLoader/EclipseLoader';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import apiCall from '../../helper/apiCalls';
 import { signInValidationSchema } from '../../validators/userDetails';
 import { LogInType, LoginResponse } from '../../types/global';
+import { UserContext } from '../../context/Globals/UserContext';
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const { setProfile } = useContext(UserContext);
   const form = useForm<LogInType>({
     resolver: yupResolver(signInValidationSchema),
   });
@@ -24,6 +26,7 @@ export default function SignIn() {
       );
 
       if (response.data) {
+        setProfile(response.data.userDetails);
         localStorage.setItem('accessToken', response.data.accessToken);
         localStorage.setItem('refreshToken', response.data.accessToken);
         navigate('/dashboard');
@@ -42,11 +45,11 @@ export default function SignIn() {
   }, []);
 
   return (
-    <div className='flex justify-center p-5'>
+    <div className='flex justify-center  p-5'>
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(handleSignIn)}
-          className='flex w-full flex-col gap-5 rounded-xl  border p-5 xs:max-w-[30rem]'
+          className='flex w-full flex-col gap-5 rounded-xl  border bg-[rgb(29,29,29)] p-5 xs:max-w-[30rem]'
         >
           <h2 className='bg-radial-red p-5 text-center text-2xl'>
             Welcome back!

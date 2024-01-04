@@ -1,26 +1,22 @@
 import React, { ReactNode, createContext, useMemo, useState } from 'react';
 import { Profile } from '../../types/global';
 
-type SearchContext = {
+type UserContext = {
   profile: Profile | null;
   setProfile: React.Dispatch<React.SetStateAction<Profile | null>>;
 };
 
-export const SearchContext = createContext<SearchContext>({
+export const UserContext = createContext<UserContext>({
   profile: null,
   setProfile: () => {
     throw new Error('Function not implemented.');
   },
 });
 
-export const AdvancedSearchProvider = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
+export const UserContextProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<Profile | null>(null);
 
-  const context: SearchContext = useMemo(
+  const context: UserContext = useMemo(
     () => ({
       profile,
       setProfile,
@@ -29,6 +25,6 @@ export const AdvancedSearchProvider = ({
   );
 
   return (
-    <SearchContext.Provider value={context}>{children}</SearchContext.Provider>
+    <UserContext.Provider value={context}>{children}</UserContext.Provider>
   );
 };

@@ -35,8 +35,7 @@ const Content = memo(function Content() {
     <div className='flex justify-center p-5'>
       <div className='items-image-container  grid max-w-[1920px]  grid-cols-1 justify-items-center gap-5 sm:grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
         {loading
-          ? // Render skeleton loader while loading
-            Array.from({ length: 15 }).map(() => (
+          ? Array.from({ length: 15 }).map(() => (
               <div
                 key={crypto.randomUUID()}
                 className='animate-pulse rounded-2xl bg-[#2d2d2d]'
@@ -49,8 +48,7 @@ const Content = memo(function Content() {
                 </div>
               </div>
             ))
-          : // Render actual content once loaded
-            allItems.map((data) => <ItemImages key={data._id} data={data} />)}
+          : allItems.map((data) => <ItemImages key={data._id} data={data} />)}
       </div>
     </div>
   );
