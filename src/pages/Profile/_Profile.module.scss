@@ -1,6 +1,13 @@
 body {
   background-image: url('../../assets/images/profile/profileBg.png');
+  // backdrop-filter: brightness(10%);
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
+}
+
+body.dark {
+  background: none;
+  background-image: url('../../assets/images/profile/profileBg.png') !important;
+  backdrop-filter: brightness(50%) !important;
 }

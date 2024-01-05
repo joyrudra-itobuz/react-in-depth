@@ -7,7 +7,7 @@ export default function ItemImages({ data }: Readonly<{ data: Item }>) {
   return (
     <Link
       to={`/item/${data._id}`}
-      className='cursor-pointer rounded-2xl bg-[#2d2d2d] p-5'
+      className='cursor-pointer rounded-2xl bg-gray-300/60 p-5 text-stone-800 backdrop-blur-lg dark:bg-[#2d2d2d]/50 dark:text-white'
     >
       <div className='aspect-square rounded-2xl shadow-2xl sm:h-[20rem] sm:w-[20rem]'>
         <LazyImage

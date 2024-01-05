@@ -38,13 +38,13 @@ const Content = memo(function Content() {
           ? Array.from({ length: 15 }).map(() => (
               <div
                 key={crypto.randomUUID()}
-                className='animate-pulse rounded-2xl bg-[#2d2d2d]'
+                className='rounded-2xl bg-gray-300 dark:bg-[#2d2d2d]'
               >
                 <div className='m-5'>
-                  <div className='h-[320px] w-[320px] animate-pulse rounded-2xl bg-stone-500'></div>
+                  <div className='h-[320px] w-[320px] animate-pulse rounded-2xl bg-gray-500 dark:bg-stone-500'></div>
                 </div>
                 <div className='m-5'>
-                  <div className='h-[246px] w-[320px] animate-pulse rounded-2xl bg-stone-500'></div>
+                  <div className='h-[246px] w-[320px] animate-pulse rounded-2xl bg-gray-500 dark:bg-stone-500'></div>
                 </div>
               </div>
             ))
