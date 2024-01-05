@@ -33,20 +33,20 @@ export default function ThemeToggleButton() {
     <div className='theme-button-container'>
       <button
         onClick={() => setIsDark(!isDark)}
-        className='relative h-8 w-16 rounded-3xl bg-white shadow-inner transition-all duration-500'
+        className='shadow-inner-groove relative h-10 w-16 rounded-3xl border-[3px] bg-gray-100 shadow-gray-200 transition-all duration-200 dark:bg-gray-800 dark:shadow-black'
       >
         <div
           className={
-            'absolute top-[2px] h-7 w-7 rounded-full transition-all duration-500 ' +
+            'absolute top-[5px] h-6 w-6 rounded-full transition-all duration-200 ' +
             (!isDark
-              ? 'left-[2px] bg-yellow-400 text-black'
-              : 'right-[2px] bg-slate-900')
+              ? 'left-[5px] border border-yellow-500 bg-yellow-400 text-black shadow-2xl'
+              : 'right-[5px] border bg-gray-700 shadow-2xl')
           }
         >
           {!isDark ? (
-            <LuSunMedium className='h-full w-full p-2 ' />
+            <LuSunMedium className='h-full w-full p-1 ' />
           ) : (
-            <BsFillCloudMoonFill className='h-full w-full p-2' />
+            <BsFillCloudMoonFill className='h-full w-full p-1' />
           )}
         </div>
       </button>

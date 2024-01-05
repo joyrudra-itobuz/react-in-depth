@@ -29,6 +29,7 @@ export default function Popup() {
         {Array.from({ length: 3 }).map((_, index) => {
           return (
             <MenuList
+              key={crypto.randomUUID()}
               link={links[index].link}
               name={links[index].name}
               className=' rounded-2xl px-5 py-2 text-gray-100 transition-all duration-300 hover:bg-gray-200/30 hover:text-blue-400'

@@ -1,4 +1,10 @@
-import React, { ReactNode, createContext, useMemo, useState } from 'react';
+import React, {
+  ReactNode,
+  createContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 type SearchContext = {
   showSearchWindow: boolean;
@@ -18,6 +24,10 @@ export const AdvancedSearchProvider = ({
   children: ReactNode;
 }) => {
   const [showSearchWindow, setShowSearchWindow] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = showSearchWindow ? 'hidden' : 'auto';
+  }, [showSearchWindow]);
 
   const context: SearchContext = useMemo(
     () => ({

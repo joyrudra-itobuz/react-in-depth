@@ -14,8 +14,12 @@ export default function Navbar() {
   const { setShowSearchWindow } = useContext(SearchContext);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
-  const [visible, setVisible] = useState(true);
+  const [isStatic, setIsStatic] = useState(true);
   const { setProfile } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log(showProfilePopup);
+  }, [showProfilePopup]);
 
   useEffect(() => {
     async function getProfile() {
@@ -37,7 +41,7 @@ export default function Navbar() {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
 
-      setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 50);
+      setIsStatic(prevScrollPos > currentScrollPos || currentScrollPos < 50);
 
       setPrevScrollPos(currentScrollPos);
     };
@@ -52,41 +56,61 @@ export default function Navbar() {
   return (
     <nav
       className={
-        'fixed top-0 z-[999] flex w-full  items-center justify-between gap-5 bg-gray-100 p-5 text-black transition-transform duration-500 dark:bg-slate-800 dark:text-white' +
-        (visible ? ' shadow-2xl' : ' translate-y-[-100%]')
+        isStatic
+          ? ' '
+          : ' flex justify-center lg:p-5' + ' transition-all duration-500'
       }
     >
-      <div className='flex items-center gap-5 text-2xl'>
-        <Link to={'/'}>
-          <FaReact className={'react-logo-spinner text-6xl text-sky-500'} />
-        </Link>
-        <h2 className='hidden min-w-max lg:block'>Advanced Search</h2>
-      </div>
-
-      <div className='flex items-center gap-2'>
-        <button
-          onClick={() => setShowSearchWindow(true)}
-          className='flex h-12 w-12 items-center justify-center gap-3 rounded-3xl border-[3px] border-transparent bg-gray-500 text-white  focus:border-teal-600 focus:outline-none lg:w-full lg:min-w-[20rem] lg:justify-start lg:p-2 lg:px-5 dark:bg-gray-200 dark:text-black'
-        >
-          <CiSearch className='text-2xl' />
-          <p className='hidden lg:block'>Search</p>
-        </button>
-
-        <ThemeToggleButton />
-
-        <div className='relative'>
+      <div
+        className={
+          'fixed top-0 z-[999] flex items-center   justify-between gap-5 bg-gray-100 px-2 py-3 text-black shadow-2xl transition-all  duration-500 sm:px-5 lg:p-5 dark:bg-slate-800 dark:text-white' +
+          (isStatic
+            ? ' w-full '
+            : ' top-3 mx-auto rounded-full shadow-black/80')
+        }
+      >
+        <div className='flex items-center gap-5 text-2xl'>
+          <Link to={'/'}>
+            <FaReact
+              className={
+                'react-logo-spinner  text-sky-500' +
+                (!isStatic ? ' text-4xl md:text-6xl' : ' text-6xl')
+              }
+            />
+          </Link>
+          <h2 className='hidden min-w-max lg:block'>Advanced Search</h2>
+        </div>
+        <div className='flex items-center justify-center gap-2'>
           <button
-            onClick={() => {
-              setShowProfilePopup(!showProfilePopup);
-            }}
+            onClick={() => setShowSearchWindow(true)}
+            className={
+              ' flex h-12 items-center justify-center gap-3 rounded-3xl border-[3px] border-transparent bg-gray-200 text-black  shadow-inner shadow-gray-400  focus:border-teal-600 focus:outline-none md:w-full md:justify-start md:px-5 lg:min-w-[20rem] lg:p-2 dark:bg-gray-200 dark:text-black' +
+              (!isStatic ? ' h-12 w-12  ' : ' w-12 xs:w-[7.5rem]')
+            }
           >
-            <CgProfile className='s my-auto min-w-max rounded-full text-[2.8rem]  dark:text-gray-100' />
+            <CiSearch className='text-2xl' />
+            <p className={!isStatic ? ' hidden xs:block' : ' hidden xs:block'}>
+              Search
+            </p>
           </button>
-          {showProfilePopup && (
-            <div className='absolute bottom-[-8rem] right-[-1rem] w-[8rem]'>
-              <Popup />
-            </div>
-          )}
+
+          <ThemeToggleButton />
+
+          <div className='relative'>
+            <button
+              className='flex flex-col items-center'
+              onClick={() => {
+                setShowProfilePopup(!showProfilePopup);
+              }}
+            >
+              <CgProfile className=' my-auto min-w-max rounded-full text-5xl  dark:text-gray-100' />
+            </button>
+            {showProfilePopup && (
+              <div className='absolute bottom-[-8rem] right-[-1rem] w-[8rem]'>
+                <Popup />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

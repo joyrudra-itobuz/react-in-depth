@@ -114,13 +114,13 @@ export default function SearchBox() {
   return (
     <div
       ref={searchContainerRef}
-      className=' fixed top-0 z-[9999] flex h-screen w-screen justify-center bg-black/40 backdrop-blur-sm'
+      className=' fixed top-0 z-[9999] flex h-screen w-screen justify-center bg-black/40 text-black backdrop-blur-sm dark:text-white'
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className='search-box mx-5 my-[5rem] w-full rounded-3xl bg-[#232323] p-5 lg:max-w-[50%]'
+        className='search-box mx-5 my-[5rem] w-full rounded-3xl bg-slate-300 p-5 lg:max-w-[50%] dark:bg-[#232323]'
       >
-        <div className=' flex items-center gap-2 rounded-3xl border-[3px] border-transparent bg-[#3b3b3b] px-3 shadow-2xl focus:border-blue-700'>
+        <div className=' flex items-center gap-2 rounded-3xl border-[3px] border-transparent bg-slate-100 px-3 shadow-2xl focus:border-blue-700 dark:bg-[#3b3b3b]'>
           <CiSearch className='text-2xl' />
           <input
             type='text'
