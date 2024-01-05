@@ -29,7 +29,12 @@ export default function AnimatedInputLabel({
           autoComplete='on'
           id={id}
         />
-        <label htmlFor={id}>{label ?? 'Type Here'}</label>
+        <label
+          htmlFor={id}
+          className='bg-slate-300 text-black dark:bg-[rgb(29,29,29)]  dark:text-white'
+        >
+          {label ?? 'Type Here'}
+        </label>
       </div>
       {fieldState.error?.message && (
         <p className='text-red-500 '>{fieldState.error?.message}</p>

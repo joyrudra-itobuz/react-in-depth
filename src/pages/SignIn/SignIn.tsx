@@ -45,11 +45,11 @@ export default function SignIn() {
   }, []);
 
   return (
-    <div className='flex justify-center  p-5'>
+    <div className='flex h-screen  w-screen items-center justify-center p-5'>
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(handleSignIn)}
-          className='flex w-full flex-col gap-5 rounded-xl  border bg-[rgb(29,29,29)] p-5 xs:max-w-[30rem]'
+          className='flex w-full flex-col gap-5 rounded-xl  border bg-gray-300 p-5 xs:max-w-[30rem] dark:bg-[rgb(29,29,29)]'
         >
           <h2 className='bg-radial-red p-5 text-center text-2xl'>
             Welcome back!
@@ -57,7 +57,7 @@ export default function SignIn() {
           <AnimatedInputLabel
             name='email'
             label='Email'
-            className='w-full'
+            className='w-full bg-gray-200'
             type='text'
           />
           <AnimatedInputLabel

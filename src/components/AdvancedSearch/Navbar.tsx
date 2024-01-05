@@ -64,9 +64,7 @@ export default function Navbar() {
       <div
         className={
           'fixed top-0 z-[999] flex items-center   justify-between gap-5 bg-gray-100 px-2 py-3 text-black shadow-2xl transition-all  duration-500 sm:px-5 lg:p-5 dark:bg-slate-800 dark:text-white' +
-          (isStatic
-            ? ' w-full '
-            : ' top-3 mx-auto rounded-full shadow-black/80')
+          (isStatic ? ' w-full ' : ' top-3 rounded-full px-10 shadow-black/80')
         }
       >
         <div className='flex items-center gap-5 text-2xl'>
@@ -74,7 +72,7 @@ export default function Navbar() {
             <FaReact
               className={
                 'react-logo-spinner  text-sky-500' +
-                (!isStatic ? ' text-4xl md:text-6xl' : ' text-6xl')
+                (!isStatic ? ' text-4xl xs:text-5xl md:text-6xl' : ' text-6xl')
               }
             />
           </Link>
@@ -89,7 +87,7 @@ export default function Navbar() {
             }
           >
             <CiSearch className='text-2xl' />
-            <p className={!isStatic ? ' hidden xs:block' : ' hidden xs:block'}>
+            <p className={isStatic ? ' hidden xs:block' : ' hidden md:block'}>
               Search
             </p>
           </button>
