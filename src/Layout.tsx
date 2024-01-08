@@ -21,7 +21,7 @@ export default function Layout({
 
   return (
     <div>
-      {profile?.email && <Navbar />}
+      <Navbar />
       {showSearchWindow && <SearchBox />}
       <div className={profile ? 'mt-28' : ''}>{children}</div>
     </div>

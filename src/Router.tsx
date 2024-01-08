@@ -4,11 +4,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AdvancedSearchProvider } from './context/AdvancedSearch/SearchContext';
 import Layout from './Layout';
 import DefaultLoading from './components/Global/Loaders/DefaultLoading';
-import ProfileRouter from './pages/Profile/ProfileRouter';
 import Profile from './pages/Profile/Profile';
 import EditProfile from './pages/Profile/EditProfile';
 import ProfileLayout from './pages/Profile/Layout/ProfileLayout';
 import { UserContextProvider } from './context/Globals/UserContext';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 
 const SignIn = lazy(() => import('./pages/SignIn/SignIn'));
 const ItemPage = lazy(() => import('./pages/ItemPage/ItemPage'));
@@ -32,16 +32,18 @@ export default function Router() {
                 <Route path='/filter' element={<Filter />} />
                 <Route path='/dashboard' element={<AdvancedSearch />} />
                 <Route path='/item/:id' element={<ItemPage />} />
+                <Route path='*' element={<PageNotFound />} />
+
                 {/* <Route path='/profile' element={<Profile />} />
               <Route path='/profile/edit' element={<EditProfile />} /> */}
               </Routes>
+              {/* <ProfileLayout>
+                <Routes>
+                  <Route path='/profile' element={<Profile />} />
+                  <Route path='/profile/edit' element={<EditProfile />} />
+                </Routes>
+              </ProfileLayout> */}
             </Layout>
-            <ProfileLayout>
-              <Routes>
-                <Route path='/profile' element={<Profile />} />
-                <Route path='/profile/edit' element={<EditProfile />} />
-              </Routes>
-            </ProfileLayout>
           </Suspense>
         </AdvancedSearchProvider>
       </UserContextProvider>

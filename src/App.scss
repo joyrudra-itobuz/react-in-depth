@@ -1,6 +1,14 @@
-@import './styles/styles';
+// @import './styles/_styles';
 
 body {
   background-color: rgb(29, 29, 29);
   color: white;
+  background-image: url('./assets/images/profile/profileBg.png') !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+body.dark {
+  background-image: url('https://images.pexels.com/photos/1586131/pexels-photo-1586131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') !important;
 }

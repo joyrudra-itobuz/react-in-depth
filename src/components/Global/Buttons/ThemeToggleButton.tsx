@@ -37,10 +37,10 @@ export default function ThemeToggleButton() {
       >
         <div
           className={
-            'absolute top-[5px] h-6 w-6 rounded-full transition-all duration-200 ' +
+            'absolute top-[5px] h-6 w-6 rounded-full transition-all  ' +
             (!isDark
               ? 'left-[5px] border border-yellow-500 bg-yellow-400 text-black shadow-2xl'
-              : 'right-[5px] border bg-gray-700 shadow-2xl')
+              : 'right-[5px] border bg-gray-700 text-white shadow-2xl')
           }
         >
           {!isDark ? (
