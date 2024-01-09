@@ -8,6 +8,8 @@ import {
 } from '../../types/AdvancedSearch';
 import { LazyImage } from '../Global/LazyImage';
 
+import { IoMdReturnLeft } from 'react-icons/io';
+
 export default function Suggestions({
   data,
   isCached,
@@ -78,7 +80,7 @@ export default function Suggestions({
   }, [handleKeyDown]);
 
   return (
-    <li key={data._id}>
+    <li key={data._id} className='relative'>
       <Link
         to={`/item/${data._id}`}
         onClick={() =>
@@ -107,6 +109,14 @@ export default function Suggestions({
           <p>{data.price}</p>
         </div>
       </Link>
+      <div
+        className={
+          'absolute right-5 top-[50%] translate-y-[-50%]  rounded-sm border-[2px] border-gray-100  bg-gray-200 p-1 text-3xl shadow-inner dark:border-gray-600 dark:bg-slate-800 dark:text-white' +
+          (selectedLi ? ' block' : ' hidden')
+        }
+      >
+        <IoMdReturnLeft />
+      </div>
     </li>
   );
 }
