@@ -21,7 +21,7 @@ const Content = memo(function Content() {
         setTimeout(() => {
           setAllItems(response.data.allItems);
           setLoading(false);
-        }, 1000);
+        }, 500);
       } catch (error) {
         console.error('Error fetching data:', error);
         setLoading(false);

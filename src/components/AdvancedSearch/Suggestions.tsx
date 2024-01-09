@@ -30,8 +30,6 @@ export default function Suggestions({
     price,
     itemImage,
   }: LocalStorageHistoryData) {
-    setShowSearchWindow(false);
-
     const link = `/item/${_id}`;
 
     const searchHistoryCached = JSON.parse(
@@ -83,15 +81,17 @@ export default function Suggestions({
     <li key={data._id} className='relative'>
       <Link
         to={`/item/${data._id}`}
-        onClick={() =>
+        onClick={() => {
           isCached &&
-          setDataToLocalStorage({
-            _id: data._id,
-            itemName: data.itemName,
-            price: data.price,
-            itemImage: data.itemImage ?? '',
-          })
-        }
+            setDataToLocalStorage({
+              _id: data._id,
+              itemName: data.itemName,
+              price: data.price,
+              itemImage: data.itemImage ?? '',
+            });
+
+          setShowSearchWindow(false);
+        }}
         className={
           'flex gap-5 bg-black/30 p-4 hover:bg-teal-700 hover:text-white ' +
           (selectedLi && ' bg-cyan-700 text-white')

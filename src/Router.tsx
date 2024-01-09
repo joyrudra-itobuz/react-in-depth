@@ -4,9 +4,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AdvancedSearchProvider } from './context/AdvancedSearch/SearchContext';
 import Layout from './Layout';
 import DefaultLoading from './components/Global/Loaders/DefaultLoading';
-import Profile from './pages/Profile/Profile';
-import EditProfile from './pages/Profile/EditProfile';
-import ProfileLayout from './pages/Profile/Layout/ProfileLayout';
 import { UserContextProvider } from './context/Globals/UserContext';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 

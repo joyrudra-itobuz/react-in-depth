@@ -195,15 +195,13 @@ export default function SearchBox() {
               >
                 {searchedData.map((data, index) => {
                   return (
-                    <Suspense fallback={<DefaultLoading />} key={data._id}>
-                      <Suggestions
-                        data={data}
-                        setSearchHistory={setSearchHistory}
-                        isCached={true}
-                        key={data._id}
-                        selectedLi={index === selectedLi}
-                      />
-                    </Suspense>
+                    <Suggestions
+                      data={data}
+                      setSearchHistory={setSearchHistory}
+                      isCached={true}
+                      key={data._id}
+                      selectedLi={index === selectedLi}
+                    />
                   );
                 })}
               </ul>
@@ -212,6 +210,7 @@ export default function SearchBox() {
             ''
           )}
         </div>
+
         <div className=' my-5 border-t-[2px] pt-5'>
           <div className='flex justify-between text-white dark:text-black/60'>
             <div className='flex items-center gap-2'>

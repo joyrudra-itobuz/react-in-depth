@@ -9,7 +9,7 @@ import {
 } from 'react';
 // import throttle from "../../helper/throttle";
 
-import { throttle } from 'lodash';
+// import { throttle } from 'lodash';
 
 type someData = {
   name: string;
@@ -50,7 +50,7 @@ export default function Filter() {
     }, 1200);
   }
 
-  const throttledFunction = throttle(getSomeData, 2000);
+  // const throttledFunction = throttle(getSomeData, 2000);
 
   useEffect(() => {
     getSomeData();
