@@ -1,7 +1,7 @@
 import { FaReact } from 'react-icons/fa';
 import { CiSearch } from 'react-icons/ci';
 import { CgProfile } from 'react-icons/cg';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { SearchContext } from '../../context/AdvancedSearch/SearchContext';
 import { Link } from 'react-router-dom';
 import Popup from '../Navbar/Popup';
@@ -10,6 +10,9 @@ import { Profile } from '../../types/global';
 import { UserContext } from '../../context/Globals/UserContext';
 import ThemeToggleButton from '../Global/Buttons/ThemeToggleButton';
 
+/* Icons */
+import { AiFillMacCommand } from 'react-icons/ai';
+
 export default function Navbar() {
   const { setShowSearchWindow } = useContext(SearchContext);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
@@ -17,9 +20,26 @@ export default function Navbar() {
   const [isStatic, setIsStatic] = useState(true);
   const { setProfile } = useContext(UserContext);
 
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+    const isCommandOrCtrlKey =
+      event.metaKey || (event.ctrlKey && !event.altKey);
+
+    const isKKeyPressed = event.key === 'k';
+
+    if (isCommandOrCtrlKey && isKKeyPressed) {
+      event.preventDefault();
+
+      setShowSearchWindow((prev) => !prev);
+    }
+  }, []);
+
   useEffect(() => {
-    console.log(showProfilePopup);
-  }, [showProfilePopup]);
+    window.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
 
   useEffect(() => {
     async function getProfile() {
@@ -82,14 +102,26 @@ export default function Navbar() {
           <button
             onClick={() => setShowSearchWindow(true)}
             className={
-              'flex h-12 items-center justify-center gap-3 rounded-3xl border-[3px] border-slate-200 border-transparent shadow-inner shadow-slate-800 focus:border-teal-600 focus:outline-none  md:w-full md:justify-start  md:px-5 lg:min-w-[20rem] lg:p-2 dark:border-slate-700 dark:bg-slate-600 dark:shadow-gray-800 ' +
+              'flex h-12 items-center justify-between gap-3 rounded-3xl border-[3px] border-gray-200 border-transparent shadow-inner shadow-slate-800 focus:border-teal-600 focus:outline-none  md:w-full md:justify-start  md:px-5 lg:min-w-[20rem] lg:p-2 dark:border-slate-700 dark:bg-slate-600 dark:shadow-gray-800 ' +
               (!isStatic ? ' h-12 w-12  ' : ' w-12 xs:w-[7.5rem]')
             }
           >
-            <CiSearch className='text-2xl' />
-            <p className={isStatic ? ' hidden xs:block' : ' hidden md:block'}>
-              Search
-            </p>
+            <div className='flex gap-2'>
+              <CiSearch className='text-2xl' />
+              <div
+                className={
+                  ' ' + isStatic ? ' hidden xs:block' : ' hidden md:block'
+                }
+              >
+                <span>Search</span>
+              </div>
+            </div>
+            <div className='ml-auto hidden items-center justify-center px-1 lg:flex'>
+              <AiFillMacCommand className='text-3xl transition-none' />
+              <p className='rounded-[1px] bg-black px-[6.6px] text-[1.1rem] font-bold text-white dark:bg-white dark:text-gray-600'>
+                K
+              </p>
+            </div>
           </button>
 
           <ThemeToggleButton />

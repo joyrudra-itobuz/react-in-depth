@@ -1,26 +1,15 @@
 import { useContext, useEffect, useRef, useState, useTransition } from 'react';
 import { CiSearch } from 'react-icons/ci';
-import { Link } from 'react-router-dom';
 import { SearchContext } from '../../context/AdvancedSearch/SearchContext';
 import apiCall from '../../helper/apiCalls';
 import { Item } from '../../types/global';
-import { LazyImage } from '../Global/LazyImage';
-
-type LocalStorageHistoryData = {
-  id: string;
-  itemName: string;
-  itemPrice: number;
-  itemImage: string;
-};
-
-type SearchHistory = LocalStorageHistoryData & {
-  link: string;
-};
+import { SearchHistory } from '../../types/AdvancedSearch';
+import Suggestions from './Suggestions';
 
 export default function SearchBox() {
   const { setShowSearchWindow } = useContext(SearchContext);
   const [search, setSearch] = useState('');
-  const [searchedData, setSearchData] = useState<Array<Item>>([]);
+  const [searchedData, setSearchedData] = useState<Array<Item>>([]);
   const [searchHistory, setSearchHistory] = useState<Array<SearchHistory>>([]);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const [, startSearchTransition] = useTransition();
@@ -32,41 +21,6 @@ export default function SearchBox() {
     ) as unknown as Array<SearchHistory>;
 
     setSearchHistory([...searchHistoryCached]);
-  }
-
-  function setDataToLocalStorage({
-    id,
-    itemName,
-    itemPrice,
-    itemImage,
-  }: LocalStorageHistoryData) {
-    setShowSearchWindow(false);
-
-    const link = `/item/${id}`;
-
-    const searchHistoryCached = JSON.parse(
-      localStorage.getItem('searchHistory') ?? '[]'
-    ) as unknown as Array<SearchHistory>;
-
-    const findIndex = searchHistoryCached.findIndex((data) => data.id === id);
-
-    if (findIndex > -1) {
-      return;
-    }
-
-    const newArr = [
-      ...searchHistoryCached,
-      {
-        itemName,
-        link,
-        id,
-        itemPrice,
-        itemImage,
-      },
-    ];
-
-    setSearchHistory(newArr);
-    localStorage.setItem('searchHistory', JSON.stringify(newArr));
   }
 
   useEffect(() => {
@@ -87,7 +41,7 @@ export default function SearchBox() {
     async function advancedSearch() {
       try {
         if (!search.length) {
-          setSearchData([]);
+          setSearchedData([]);
           return;
         }
 
@@ -97,7 +51,7 @@ export default function SearchBox() {
           null
         );
 
-        setSearchData(response.data);
+        setSearchedData(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -145,25 +99,12 @@ export default function SearchBox() {
             ) : (
               searchHistory.map((data) => {
                 return (
-                  <li key={data.id}>
-                    <Link
-                      onClick={() => setShowSearchWindow(false)}
-                      to={`/item/${data.id}`}
-                      className='flex gap-5 bg-black/30 p-4'
-                    >
-                      <div className='h-20 w-20'>
-                        <LazyImage
-                          className='h-full w-full object-cover'
-                          src={data.itemImage}
-                          alt={data.itemName}
-                        />
-                      </div>
-                      <div className='flex flex-col items-start gap-2'>
-                        <p>{data.itemName}</p>
-                        <p>{data.itemPrice}</p>
-                      </div>
-                    </Link>
-                  </li>
+                  <Suggestions
+                    key={data._id}
+                    data={data}
+                    isCached={false}
+                    setSearchHistory={setSearchHistory}
+                  />
                 );
               })
             )}
@@ -175,32 +116,12 @@ export default function SearchBox() {
               <ul className='flex h-[20rem] flex-col gap-2 overflow-y-scroll'>
                 {searchedData.map((data) => {
                   return (
-                    <li key={data._id}>
-                      <Link
-                        to={`/item/${data._id}`}
-                        onClick={() =>
-                          setDataToLocalStorage({
-                            id: data._id,
-                            itemName: data.itemName,
-                            itemPrice: data.price,
-                            itemImage: data.itemImage ?? '',
-                          })
-                        }
-                        className='flex gap-5 bg-black/30 p-4'
-                      >
-                        <div className='h-20 w-20'>
-                          <LazyImage
-                            className='h-full w-full object-cover'
-                            src={data.itemImage}
-                            alt={data.itemName}
-                          />
-                        </div>
-                        <div className='flex flex-col items-start gap-2'>
-                          <p>{data.itemName}</p>
-                          <p>{data.price}</p>
-                        </div>
-                      </Link>
-                    </li>
+                    <Suggestions
+                      data={data}
+                      setSearchHistory={setSearchHistory}
+                      isCached={true}
+                      key={data._id}
+                    />
                   );
                 })}
               </ul>
