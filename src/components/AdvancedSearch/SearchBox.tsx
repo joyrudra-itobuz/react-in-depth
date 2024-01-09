@@ -7,13 +7,18 @@ import {
   useState,
   useTransition,
 } from 'react';
+
 import { CiSearch } from 'react-icons/ci';
+import { IoMdReturnLeft } from 'react-icons/io';
+import { FaArrowUp, FaArrowDown, FaGithub } from 'react-icons/fa';
+
 import { SearchContext } from '../../context/AdvancedSearch/SearchContext';
 import apiCall from '../../helper/apiCalls';
 import { Item } from '../../types/global';
 import { SearchHistory } from '../../types/AdvancedSearch';
 import Suggestions from './Suggestions';
 import DefaultLoading from '../Global/Loaders/DefaultLoading';
+import { Link } from 'react-router-dom';
 
 export default function SearchBox() {
   const { setShowSearchWindow } = useContext(SearchContext);
@@ -26,11 +31,12 @@ export default function SearchBox() {
   const [selectedLi, setSelectedLi] = useState(0);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
+  const helperButtonClassNames =
+    'h-8 w-8 bg-gray-700 p-1 text-2xl dark:bg-gray-100 shadow-inner border-[2px] dark:border-white border-gray-400 shadow-black/50 rounded-sm ';
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       const key = event.key;
-
-      console.log(event.key);
 
       if (key === 'ArrowUp' && selectedLi !== null) {
         if (selectedLi === 0) {
@@ -147,35 +153,42 @@ export default function SearchBox() {
           />
         </div>
 
-        <div className='recent-searches mt-5 max-h-[30rem]'>
-          <h4>RECENT</h4>
-          <ul
-            className='my-4 flex max-h-[20rem] flex-col gap-2 overflow-y-scroll'
-            ref={liRef}
-          >
-            {!searchHistory.length ? (
-              <div>No Search Found!</div>
-            ) : (
-              searchHistory.map((data, index) => {
-                return (
-                  <Suspense fallback={<DefaultLoading />} key={data._id}>
-                    <Suggestions
-                      data={data}
-                      isCached={false}
-                      setSearchHistory={setSearchHistory}
-                      selectedLi={index === selectedLi}
-                    />
-                  </Suspense>
-                );
-              })
-            )}
-          </ul>
+        <div className='mt-5'>
+          {!search.length && (
+            <div className='recent-searches-container'>
+              <h4>RECENT</h4>
+              <ul
+                className='my-4  flex max-h-[35rem] flex-col gap-2 overflow-y-scroll'
+                ref={liRef}
+              >
+                {!searchHistory.length ? (
+                  <div>No Search Found!</div>
+                ) : (
+                  searchHistory.map((data, index) => {
+                    return (
+                      <Suspense fallback={<DefaultLoading />} key={data._id}>
+                        <Suggestions
+                          data={data}
+                          isCached={false}
+                          setSearchHistory={setSearchHistory}
+                          selectedLi={index === selectedLi}
+                        />
+                      </Suspense>
+                    );
+                  })
+                )}
+              </ul>
+            </div>
+          )}
 
-          {searchedData?.length ? (
-            <div className='max-h-[30rem]'>
+          {search.length ? (
+            <div className=''>
               <h2 className='my-2 font-bold'>Suggestions : </h2>
-              <ul className='flex h-[20rem] flex-col gap-2 overflow-y-scroll'>
-                {searchedData.map((data) => {
+              <ul
+                className='flex h-full max-h-[35rem] flex-col gap-2 overflow-y-scroll'
+                ref={liRef}
+              >
+                {searchedData.map((data, index) => {
                   return (
                     <Suspense fallback={<DefaultLoading />} key={data._id}>
                       <Suggestions
@@ -183,6 +196,7 @@ export default function SearchBox() {
                         setSearchHistory={setSearchHistory}
                         isCached={true}
                         key={data._id}
+                        selectedLi={index === selectedLi}
                       />
                     </Suspense>
                   );
@@ -192,6 +206,50 @@ export default function SearchBox() {
           ) : (
             ''
           )}
+        </div>
+        <div className=' my-5 border-t-[2px] pt-5'>
+          <div className='flex justify-between text-white dark:text-black/60'>
+            <div className='flex items-center gap-2'>
+              <IoMdReturnLeft className={helperButtonClassNames} />
+              <p className='text-black dark:text-white'>to Select</p>
+            </div>
+            <div className='flex items-center gap-2'>
+              <FaArrowUp className={helperButtonClassNames} />
+              <FaArrowDown className={helperButtonClassNames} />
+              <p className='text-black dark:text-white'>to navigate</p>
+            </div>
+            <div className='flex items-center gap-2'>
+              <p
+                className={
+                  'h-8 w-8 rounded-sm border-[2px] border-gray-400 bg-gray-700 p-1 text-[12.5px] font-bold shadow-inner shadow-black/50 dark:border-white dark:bg-gray-100'
+                }
+              >
+                esc
+              </p>
+              <p className='text-black dark:text-white'>to close</p>
+            </div>
+          </div>
+          <div className='mt-5 flex gap-2'>
+            <p>
+              Search{' '}
+              <span className='font-bold italic text-blue-600'>Powered By</span>
+            </p>
+            <Link
+              className='flex items-center'
+              target='_blank'
+              to={'https://github.com/joyrudra-itobuz'}
+            >
+              <FaGithub
+                className={
+                  'text-2xl transition-all duration-500 hover:scale-x-[-1]'
+                }
+              />
+
+              <h2 className='mb-[-1rem] text-xs font-bold italic text-blue-500'>
+                Joyrudra Biswas
+              </h2>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
 import './App.scss';
 import Router from './Router';
-import ProfileRouter from './pages/Profile/ProfileRouter';
 
 // import '@mantine/core/styles.css';
 
