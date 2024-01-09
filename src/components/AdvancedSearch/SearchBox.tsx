@@ -1,10 +1,18 @@
-import { useContext, useEffect, useRef, useState, useTransition } from 'react';
+import {
+  Suspense,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from 'react';
 import { CiSearch } from 'react-icons/ci';
 import { SearchContext } from '../../context/AdvancedSearch/SearchContext';
 import apiCall from '../../helper/apiCalls';
 import { Item } from '../../types/global';
 import { SearchHistory } from '../../types/AdvancedSearch';
 import Suggestions from './Suggestions';
+import DefaultLoading from '../Global/Loaders/DefaultLoading';
 
 export default function SearchBox() {
   const { setShowSearchWindow } = useContext(SearchContext);
@@ -99,12 +107,13 @@ export default function SearchBox() {
             ) : (
               searchHistory.map((data) => {
                 return (
-                  <Suggestions
-                    key={data._id}
-                    data={data}
-                    isCached={false}
-                    setSearchHistory={setSearchHistory}
-                  />
+                  <Suspense fallback={<DefaultLoading />} key={data._id}>
+                    <Suggestions
+                      data={data}
+                      isCached={false}
+                      setSearchHistory={setSearchHistory}
+                    />
+                  </Suspense>
                 );
               })
             )}
@@ -116,12 +125,14 @@ export default function SearchBox() {
               <ul className='flex h-[20rem] flex-col gap-2 overflow-y-scroll'>
                 {searchedData.map((data) => {
                   return (
-                    <Suggestions
-                      data={data}
-                      setSearchHistory={setSearchHistory}
-                      isCached={true}
-                      key={data._id}
-                    />
+                    <Suspense fallback={<DefaultLoading />} key={data._id}>
+                      <Suggestions
+                        data={data}
+                        setSearchHistory={setSearchHistory}
+                        isCached={true}
+                        key={data._id}
+                      />
+                    </Suspense>
                   );
                 })}
               </ul>

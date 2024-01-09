@@ -1,9 +1,10 @@
-import { ReactNode, useContext, useEffect } from 'react';
+import { ReactNode, Suspense, useContext, useEffect } from 'react';
 import Navbar from './components/AdvancedSearch/Navbar';
 import SearchBox from './components/AdvancedSearch/SearchBox';
 import { SearchContext } from './context/AdvancedSearch/SearchContext';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from './context/Globals/UserContext';
+import DefaultLoading from './components/Global/Loaders/DefaultLoading';
 
 export default function Layout({
   children,
@@ -15,14 +16,17 @@ export default function Layout({
   useEffect(() => {
     if (!localStorage.getItem('accessToken')) {
       navigate('/');
-      return;
     }
   }, []);
 
   return (
     <div>
       <Navbar />
-      {showSearchWindow && <SearchBox />}
+      {showSearchWindow && (
+        <Suspense fallback={<DefaultLoading />}>
+          <SearchBox />
+        </Suspense>
+      )}
       <div className={profile ? 'mt-28' : ''}>{children}</div>
     </div>
   );
