@@ -1,5 +1,6 @@
 import {
   Suspense,
+  useCallback,
   useContext,
   useEffect,
   useRef,
@@ -16,12 +17,59 @@ import DefaultLoading from '../Global/Loaders/DefaultLoading';
 
 export default function SearchBox() {
   const { setShowSearchWindow } = useContext(SearchContext);
+  const liRef = useRef<HTMLUListElement>(null);
   const [search, setSearch] = useState('');
   const [searchedData, setSearchedData] = useState<Array<Item>>([]);
   const [searchHistory, setSearchHistory] = useState<Array<SearchHistory>>([]);
   const searchContainerRef = useRef<HTMLDivElement | null>(null);
   const [, startSearchTransition] = useTransition();
+  const [selectedLi, setSelectedLi] = useState(0);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      const key = event.key;
+
+      console.log(event.key);
+
+      if (key === 'ArrowUp' && selectedLi !== null) {
+        if (selectedLi === 0) {
+          setSelectedLi(searchHistory.length - 1);
+          scrollToListItem(searchHistory.length - 1);
+          return;
+        }
+
+        setSelectedLi((prev) => Math.max(prev - 1, 0));
+        scrollToListItem(selectedLi - 1);
+      } else if (key === 'ArrowDown' && selectedLi !== null) {
+        if (selectedLi === searchHistory.length - 1) {
+          scrollToListItem(0);
+          setSelectedLi(0);
+          return;
+        }
+
+        setSelectedLi((prev) => Math.min(prev + 1, searchHistory.length - 1));
+        scrollToListItem(selectedLi + 1);
+      }
+    },
+
+    [selectedLi, searchHistory]
+  );
+
+  const scrollToListItem = (index: number) => {
+    if (liRef.current) {
+      const listItem = liRef.current.children[index] as HTMLLIElement;
+      listItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   function setSearchHistoryData() {
     const searchHistoryCached = JSON.parse(
@@ -101,17 +149,21 @@ export default function SearchBox() {
 
         <div className='recent-searches mt-5 max-h-[30rem]'>
           <h4>RECENT</h4>
-          <ul className='my-4 flex max-h-[20rem] flex-col gap-2 overflow-y-scroll'>
+          <ul
+            className='my-4 flex max-h-[20rem] flex-col gap-2 overflow-y-scroll'
+            ref={liRef}
+          >
             {!searchHistory.length ? (
               <div>No Search Found!</div>
             ) : (
-              searchHistory.map((data) => {
+              searchHistory.map((data, index) => {
                 return (
                   <Suspense fallback={<DefaultLoading />} key={data._id}>
                     <Suggestions
                       data={data}
                       isCached={false}
                       setSearchHistory={setSearchHistory}
+                      selectedLi={index === selectedLi}
                     />
                   </Suspense>
                 );
