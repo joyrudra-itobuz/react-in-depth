@@ -38,6 +38,11 @@ export default function SearchBox() {
     (event: KeyboardEvent) => {
       const key = event.key;
 
+      if (key === 'Escape') {
+        setShowSearchWindow((prev) => !prev);
+        return;
+      }
+
       if (key === 'ArrowUp' && selectedLi !== null) {
         if (selectedLi === 0) {
           setSelectedLi(searchHistory.length - 1);

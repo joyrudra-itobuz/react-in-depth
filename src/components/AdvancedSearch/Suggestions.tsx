@@ -91,7 +91,7 @@ export default function Suggestions({
           })
         }
         className={
-          'flex gap-5 bg-black/30 p-4 ' +
+          'flex gap-5 bg-black/30 p-4 hover:bg-teal-700 hover:text-white ' +
           (selectedLi && ' bg-cyan-700 text-white')
         }
       >
