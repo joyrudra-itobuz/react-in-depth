@@ -102,7 +102,7 @@ export default function Navbar() {
           <button
             onClick={() => setShowSearchWindow(true)}
             className={
-              'flex h-12 items-center justify-between gap-3 rounded-3xl border-[3px] border-gray-200 border-transparent shadow-inner shadow-slate-800 focus:border-teal-600 focus:outline-none  md:w-full md:justify-start  md:px-5 lg:min-w-[20rem] lg:p-2 dark:border-slate-700 dark:bg-slate-600 dark:shadow-gray-800 ' +
+              'flex h-12 items-center justify-between gap-3 rounded-3xl border-[3px] border-gray-300 border-transparent shadow-inner shadow-slate-800 focus:border-teal-600 focus:outline-none  md:w-full md:justify-start  md:px-5 lg:min-w-[20rem] lg:p-2 dark:border-slate-700 dark:bg-slate-600 dark:shadow-gray-800 ' +
               (!isStatic ? ' h-12 w-12  ' : ' w-12 xs:w-[7.5rem]')
             }
           >
