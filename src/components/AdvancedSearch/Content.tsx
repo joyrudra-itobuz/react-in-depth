@@ -18,10 +18,8 @@ const Content = memo(function Content() {
           true
         );
 
-        setTimeout(() => {
-          setAllItems(response.data.allItems);
-          setLoading(false);
-        }, 500);
+        setAllItems(response.data.allItems);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
         setLoading(false);
@@ -48,7 +46,9 @@ const Content = memo(function Content() {
                 </div>
               </div>
             ))
-          : allItems.map((data) => <ItemImages key={data._id} data={data} />)}
+          : allItems
+              .slice(23, allItems.length)
+              .map((data) => <ItemImages key={data._id} data={data} />)}
       </div>
     </div>
   );

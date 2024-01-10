@@ -2,6 +2,8 @@ export type Item = {
   foodType: string;
   itemImage?: string;
   itemImageName?: string;
+  thumbnail?: string;
+  thumbnailName?: string;
   itemName: string;
   price: number;
   description: string;

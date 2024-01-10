@@ -33,7 +33,7 @@ export default function ItemPage() {
           <LazyImage
             src={item?.itemImage}
             alt={item?.itemImageName}
-            className='h-full w-full rounded-3xl object-cover'
+            className='h-full w-full rounded-3xl border-[5px] border-gray-300 object-cover shadow-inner dark:border-gray-600'
           />
         </div>
 

@@ -9,8 +9,6 @@ import {
 } from 'react';
 // import throttle from "../../helper/throttle";
 
-// import { throttle } from 'lodash';
-
 type someData = {
   name: string;
   id: string;
@@ -31,9 +29,7 @@ export default function Filter() {
 
       const data = await res.json();
 
-      setTimeout(() => {
-        startTransition(() => setSomeData(data));
-      }, 1200);
+      startTransition(() => setSomeData(data));
 
       return;
     }
@@ -45,9 +41,7 @@ export default function Filter() {
     );
     const data = await res.json();
 
-    setTimeout(() => {
-      startTransition(() => setSomeData([data]));
-    }, 1200);
+    startTransition(() => setSomeData([data]));
   }
 
   // const throttledFunction = throttle(getSomeData, 2000);
@@ -70,9 +64,7 @@ export default function Filter() {
     );
     const data = await res.json();
 
-    setTimeout(() => {
-      setSomeData([data]);
-    }, 1200);
+    setSomeData([data]);
   }
 
   return (

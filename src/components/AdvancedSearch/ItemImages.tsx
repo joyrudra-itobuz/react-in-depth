@@ -11,7 +11,7 @@ export default function ItemImages({ data }: Readonly<{ data: Item }>) {
     >
       <div className='aspect-square rounded-2xl shadow-2xl sm:h-[20rem] sm:w-[20rem]'>
         <LazyImage
-          src={data.itemImage}
+          src={data.thumbnail}
           alt={data.itemImageName}
           className='h-full w-full rounded-2xl object-cover'
         />
