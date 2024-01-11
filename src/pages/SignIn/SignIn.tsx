@@ -1,6 +1,5 @@
 import SubmitButton from '../../components/Global/Buttons/SubmitButton';
 import AnimatedInputLabel from '../../components/Global/Inputs/AnimatedInputLabel';
-// import EclipseLoader from '../../components/Global/EclipseLoader/EclipseLoader';
 import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -66,12 +65,7 @@ export default function SignIn() {
             type='password'
             className='w-full'
           />
-          <SubmitButton className='relative'>
-            {/*<div className='absolute '>
-              <EclipseLoader className='translate-x-[8rem] translate-y-[-5.6rem] scale-[15%]' />
-            </div> */}
-            Submit
-          </SubmitButton>
+          <SubmitButton className='relative'>Submit</SubmitButton>
         </form>
       </FormProvider>
     </div>
