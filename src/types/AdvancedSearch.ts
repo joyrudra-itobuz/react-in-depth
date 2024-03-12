@@ -3,6 +3,7 @@ export type LocalStorageHistoryData = {
   itemName: string;
   price: number;
   itemImage: string;
+  thumbnail: string;
 };
 
 export type SearchHistory = LocalStorageHistoryData & {

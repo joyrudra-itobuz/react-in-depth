@@ -29,6 +29,7 @@ export default function Suggestions({
     itemName,
     price,
     itemImage,
+    thumbnail,
   }: LocalStorageHistoryData) {
     const link = `/item/${_id}`;
 
@@ -50,6 +51,7 @@ export default function Suggestions({
         _id,
         price,
         itemImage,
+        thumbnail,
       },
     ];
 
@@ -88,6 +90,7 @@ export default function Suggestions({
               itemName: data.itemName,
               price: data.price,
               itemImage: data.itemImage ?? '',
+              thumbnail: data.thumbnail ?? '',
             });
 
           setShowSearchWindow(false);
@@ -100,7 +103,7 @@ export default function Suggestions({
         <div className='h-20 w-20'>
           <LazyImage
             className='h-full w-full object-cover'
-            src={data.itemImage}
+            src={data.thumbnail}
             alt={data.itemName}
           />
         </div>
