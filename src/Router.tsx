@@ -12,6 +12,9 @@ const ItemPage = lazy(() => import('./pages/ItemPage/ItemPage'));
 const AdvancedSearch = lazy(
   () => import('./pages/AdvancedSearch/AdvancedSearch')
 );
+const MusicVisualization = lazy(
+  () => import('./pages/MusicVisualization/MusicVisualization')
+);
 const Filter = lazy(() => import('./pages/Filter/Filter'));
 // const Profile = lazy(() => import('./pages/Profile/Profile.tsx'));
 // const EditProfile = lazy(() => import('./pages/EditProfile/EditProfile.tsx'));
@@ -29,6 +32,10 @@ export default function Router() {
                 <Route path='/filter' element={<Filter />} />
                 <Route path='/dashboard' element={<AdvancedSearch />} />
                 <Route path='/item/:id' element={<ItemPage />} />
+                <Route
+                  path='/music-visualizer'
+                  element={<MusicVisualization />}
+                />
                 <Route path='*' element={<PageNotFound />} />
 
                 {/* <Route path='/profile' element={<Profile />} />

@@ -20,13 +20,14 @@ const links = [
   { name: 'Profile', link: '/profile' },
   { name: 'Edit Profile', link: '/profile-settings' },
   { name: 'About', link: '/about' },
+  { name: 'MusicVisualization', link: '/music-visualizer' },
 ];
 
 export default function Popup() {
   return (
     <div className=' max-w-max rounded-2xl bg-black/30 font-semibold backdrop-blur-sm'>
       <ul className='block overflow-hidden text-black'>
-        {Array.from({ length: 3 }).map((_, index) => {
+        {links.map((_, index) => {
           return (
             <MenuList
               key={crypto.randomUUID()}

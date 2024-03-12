@@ -82,10 +82,29 @@ export default function Navbar() {
       }
     >
       <div
-        className={
-          'fixed top-0 z-[999] flex items-center   justify-between gap-5 bg-gray-100 px-2 py-3 text-black shadow-2xl transition-all  duration-500 sm:px-5 lg:p-5 dark:bg-slate-800 dark:text-white' +
-          (isStatic ? ' w-full ' : ' top-3 rounded-full px-10 shadow-black/80')
-        }
+        className={`fixed
+                    top-0
+                    z-[999]
+                    flex
+                    items-center
+                    justify-between
+                    gap-5
+                    bg-gray-100
+                    px-2
+                    py-3
+                    text-black
+                    shadow-2xl
+                    transition-all
+                    duration-500
+                    sm:px-5
+                    lg:p-5
+                    dark:bg-slate-800
+                    dark:text-white
+                    ${
+                      isStatic
+                        ? ' w-full '
+                        : ' top-3 rounded-full px-10 shadow-black/80'
+                    }`}
       >
         <div className='flex items-center gap-5 text-2xl'>
           <Link to={'/'}>
@@ -101,10 +120,28 @@ export default function Navbar() {
         <div className='flex items-center justify-center gap-2'>
           <button
             onClick={() => setShowSearchWindow(true)}
-            className={
-              'flex h-12 items-center justify-between gap-3 rounded-3xl border-[3px] border-gray-300 border-transparent shadow-inner shadow-slate-800 focus:border-teal-600 focus:outline-none  md:w-full md:justify-start  md:px-5 lg:min-w-[20rem] lg:p-2 dark:border-slate-700 dark:bg-slate-600 dark:shadow-gray-800 ' +
-              (!isStatic ? ' h-12 w-12  ' : ' w-12 xs:w-[7.5rem]')
-            }
+            className={`flex
+                        h-12
+                        items-center
+                        justify-between
+                        gap-3
+                        rounded-3xl
+                        border-[3px]
+                        border-gray-300
+                        border-transparent
+                        shadow-inner
+                        shadow-slate-800
+                        focus:border-teal-600
+                        focus:outline-none
+                        md:w-full
+                        md:justify-start
+                        md:px-5
+                        lg:min-w-[20rem]
+                        lg:p-2
+                        dark:border-slate-700
+                        dark:bg-slate-600
+                        dark:shadow-gray-800
+                        ${!isStatic ? ' h-12 w-12  ' : ' w-12 xs:w-[7.5rem]'}`}
           >
             <div className='flex gap-2'>
               <CiSearch className='text-2xl' />
@@ -118,7 +155,16 @@ export default function Navbar() {
             </div>
             <div className='ml-auto hidden items-center justify-center px-1 lg:flex'>
               <AiFillMacCommand className='text-3xl transition-none' />
-              <p className='rounded-[1px] bg-black px-[6.6px] text-[1.1rem] font-bold text-white dark:bg-white dark:text-gray-600'>
+              <p
+                className='rounded-[1px]
+                          bg-black
+                          px-[6.6px]
+                          text-[1.1rem]
+                          font-bold
+                          text-white
+                          dark:bg-white
+                          dark:text-gray-600'
+              >
                 K
               </p>
             </div>
