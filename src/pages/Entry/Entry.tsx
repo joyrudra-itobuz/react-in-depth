@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function App() {
   return (
-    <div className="bg-black/90 text-white h-screen">
+    <div className='h-screen bg-black/90 text-white'>
       <IncreaseComponent />
     </div>
   );
@@ -12,12 +12,12 @@ function IncreaseComponent() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    console.log("Mounts");
+    console.log('Mounts');
 
-    console.log("Updating");
+    console.log('Updating');
 
     return () => {
-      console.log("Unmounts");
+      console.log('Unmounts');
     };
   }, []);
 

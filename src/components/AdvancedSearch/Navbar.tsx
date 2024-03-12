@@ -141,7 +141,7 @@ export default function Navbar() {
                         dark:border-slate-700
                         dark:bg-slate-600
                         dark:shadow-gray-800
-                        ${!isStatic ? ' h-12 w-12  ' : ' w-12 xs:w-[7.5rem]'}`}
+                        ${!isStatic ? ' h-12 w-12 ' : ' w-12 xs:w-[7.5rem]'}`}
           >
             <div className='flex gap-2'>
               <CiSearch className='text-2xl' />
@@ -179,7 +179,13 @@ export default function Navbar() {
                 setShowProfilePopup(!showProfilePopup);
               }}
             >
-              <CgProfile className=' my-auto min-w-max rounded-full text-5xl  dark:text-gray-100' />
+              <CgProfile
+                className='my-auto
+                           min-w-max
+                           rounded-full
+                           text-5xl
+                           dark:text-gray-100'
+              />
             </button>
             {showProfilePopup && (
               <div className='absolute bottom-[-8rem] right-[-1rem] w-[8rem]'>
